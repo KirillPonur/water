@@ -1,7 +1,7 @@
 			                PROGRAM  SEAWVS_2;
 {      PROGRAM CALCULATES WAVENUMVER SPECTRUM OF Swell
 
-                   ŒŽ„…ˆ‡€–ˆŸ
+                   Å’Å½â€žâ€¦ÂÂË†â€¡â‚¬â€“Ë†Å¸
        1) HEIGHT AND SLOPES - LONG CALCULATION
        2) SWELL
        3) WIND WAVES
@@ -26,8 +26,8 @@
 }
            FUNCTION   FFF(X,Z : EXTENDED) : EXTENDED;
 {
-         „‹Ÿ   Žˆ‘Š€   “‹…‰, X - ‘ŠŽŽ‘’œ ’…ˆŸ, Z - ‚›‘Ž’€ ,
-	     Ž‘’ŽŸ€Ÿ Š€Œ€€ 0.4
+         â€žâ€¹Å¸   ÂÅ½Ë†â€˜Å â‚¬   Ââ€œâ€¹â€¦â€°, X - â€˜Å Å½ÂÅ½â€˜â€™Å“ â€™Ââ€¦ÂË†Å¸, Z - â€šâ€ºâ€˜Å½â€™â‚¬ ,
+	     ÂÅ½â€˜â€™Å½Å¸ÂÂâ‚¬Å¸ Å â‚¬ÂÅ’â‚¬Ââ‚¬ 0.4
 }
     VAR
           Z0 : EXTENDED;
@@ -41,19 +41,19 @@
 }
 		   FUNCTION  WIND(UBEG,ZBEG,ZEND : EXTENDED;VAR UFRICTION:EXTENDED)
 															     : EXTENDED;
-{          ”“Š–ˆŸ €•Ž„ˆ’ ‘ŠŽŽ‘’œ ‚…’€ € “†Ž‰ ‚›‘Ž’… ZEND
-           Ž ‚‚…„…Ž‰ ‚›‘Ž’… ˆ ‘ŠŽŽ‘’ˆ ‚…’€. ŠŽŒ… ’ŽƒŽ ‚›„€…’
-           ˆ”ŽŒ€–ˆž Ž ‘ŠŽŽ‘’ˆ ’…ˆŸ
+{          â€â€œÂÅ â€“Ë†Å¸ Ââ‚¬â€¢Å½â€žË†â€™ â€˜Å Å½ÂÅ½â€˜â€™Å“ â€šâ€¦â€™Ââ‚¬ Ââ‚¬ Ââ€œâ€ ÂÅ½â€° â€šâ€ºâ€˜Å½â€™â€¦ ZEND
+           ÂÅ½ â€šâ€šâ€¦â€žâ€¦ÂÂÅ½â€° â€šâ€ºâ€˜Å½â€™â€¦ Ë† â€˜Å Å½ÂÅ½â€˜â€™Ë† â€šâ€¦â€™Ââ‚¬. Å ÂÅ½Å’â€¦ â€™Å½Æ’Å½ â€šâ€ºâ€žâ‚¬â€¦â€™
+           Ë†Ââ€Å½ÂÅ’â‚¬â€“Ë†Å¾ Å½ â€˜Å Å½ÂÅ½â€˜â€™Ë† â€™Ââ€¦ÂË†Å¸
 }
     VAR
 		 YWINDOW,XWINDOW : BYTE;
 {
-***** €—€‹Ž ‚“’……‰ ”“Š–ˆˆ *****
+***** Ââ‚¬â€”â‚¬â€¹Å½ â€šÂâ€œâ€™Ââ€¦ÂÂâ€¦â€° â€â€œÂÅ â€“Ë†Ë† *****
 *************************************
 }
                  FUNCTION  FIND_FRICTION(X0,HX,EPSX: EXTENDED) : EXTENDED;
-                    { €•Ž„ˆ’  “‹ˆ  ”“Š–ˆˆ. ‚  „€ŽŒ  ‘‹“—€…
-                      €•Ž„ˆ’ ‘ŠŽŽ‘’œ ’…ˆŸ  }
+                    { Ââ‚¬â€¢Å½â€žË†â€™  Ââ€œâ€¹Ë†  â€â€œÂÅ â€“Ë†Ë†. â€š  â€žâ‚¬ÂÂÅ½Å’  â€˜â€¹â€œâ€”â‚¬â€¦
+                      Ââ‚¬â€¢Å½â€žË†â€™ â€˜Å Å½ÂÅ½â€˜â€™Å“ â€™Ââ€¦ÂË†Å¸  }
 		         VAR XA,XB,X : EXTENDED;
 			     YA,YB,Y : BOOLEAN;
 		         BEGIN
@@ -90,10 +90,10 @@
 
 		         END;
 
-{**** ŠŽ…– ‚‘ŽŒŽƒ€’…‹œŽ‰ ”“Š–ˆˆ ****
+{**** Å Å½Ââ€¦â€“ â€šâ€˜ÂÅ½Å’Å½Æ’â‚¬â€™â€¦â€¹Å“ÂÅ½â€° â€â€œÂÅ â€“Ë†Ë† ****
 ****************************************
 }
-	BEGIN     {**** ƒ‹€‚€Ÿ ”“Š–ˆŸ ****}
+	BEGIN     {**** Æ’â€¹â‚¬â€šÂâ‚¬Å¸ â€â€œÂÅ â€“Ë†Å¸ ****}
         YWINDOW:= WHEREY;
         WRITELN;
         WRITE_NOVISIBLE('  WIND SPEED (HEIGHT OF ANEMOMETER) - IN CM/S (CM) ',
@@ -121,12 +121,12 @@
  -------------------------------------------------------------------------
 }
        FUNCTION  FIND_DECISION(WX: EXTENDED) : EXTENDED;
-{         €•Ž„ˆ’  …˜…ˆ… “€‚…ˆŸ ’…’…‰ ‘’……ˆ
-          …‡ ŠŽŒ‹…Š‘›• ŠŽ…‰
-          WX - —€‘’Ž’€
-          P - ŠŽ””ˆ–ˆ…’ ˆ …‚Ž‰ ‘’……ˆ
-          Q - ‘‚ŽŽ„›‰ —‹…
-          ‚›—ˆ‘‹Ÿ…’‘Ÿ Š ˆ‡ „ˆ‘…‘ˆŽŠˆ
+{         Ââ‚¬â€¢Å½â€žË†â€™  Ââ€¦Ëœâ€¦ÂË†â€¦ â€œÂâ‚¬â€šÂâ€¦ÂË†Å¸ â€™Ââ€¦â€™â€¦â€° â€˜â€™â€¦Ââ€¦ÂË†
+          Ââ€¦â€¡ Å Å½Å’Ââ€¹â€¦Å â€˜Ââ€ºâ€¢ Å Å½ÂÂâ€¦â€°
+          WX - â€”â‚¬â€˜â€™Å½â€™â‚¬
+          P - Å Å½Ââ€â€Ë†â€“Ë†â€¦Ââ€™ ÂÂË† Ââ€¦Ââ€šÅ½â€° â€˜â€™â€¦Ââ€¦ÂË†
+          Q - â€˜â€šÅ½ÂÅ½â€žÂâ€ºâ€° â€”â€¹â€¦Â
+          â€šâ€ºâ€”Ë†â€˜â€¹Å¸â€¦â€™â€˜Å¸ Å  Ë†â€¡ â€žË†â€˜Ââ€¦Ââ€˜Ë†Å½ÂÅ Ë†
 }
      VAR
          KX,X1,X2,P,Q : EXTENDED;
@@ -146,8 +146,8 @@
  --------------------------------------------------------------------------
 }
            FUNCTION  OMEGA_K(X : EXTENDED) : EXTENDED;
-{             ”“Š–ˆŸ ‚›Ž‹Ÿ…’ ……‘—…’ ‚Ž‹Ž‚ŽƒŽ —ˆ‘‹€
-         ‚ OMEGA Ž Ž‹Ž‰ „ˆ‘…‘ˆŽŠ…
+{             â€â€œÂÅ â€“Ë†Å¸ â€šâ€ºÂÅ½â€¹ÂÅ¸â€¦â€™ Ââ€¦Ââ€¦â€˜â€”â€¦â€™ â€šÅ½â€¹ÂÅ½â€šÅ½Æ’Å½ â€”Ë†â€˜â€¹â‚¬
+         â€š OMEGA ÂÅ½ ÂÅ½â€¹ÂÅ½â€° â€žË†â€˜Ââ€¦Ââ€˜Ë†Å½ÂÅ â€¦
 }
     VAR
         W : EXTENDED;
@@ -161,7 +161,7 @@
  --------------------------------------------------------------------------
 }
             FUNCTION  KM_LIMIT(U10 : EXTENDED) : EXTENDED;
-{        ‡€‚ˆ‘ˆŒŽ‘’œ  …„…‹€ Ž’ ‘ŠŽŽ‘’ˆ ‚…’€
+{        â€¡â‚¬â€šË†â€˜Ë†Å’Å½â€˜â€™Å“  ÂÂâ€¦â€žâ€¦â€¹â‚¬ Å½â€™ â€˜Å Å½ÂÅ½â€˜â€™Ë† â€šâ€¦â€™Ââ‚¬
 }
     BEGIN
          IF (U10 < 2.5) OR (U10 > 22.0)
@@ -180,8 +180,8 @@
  -------------------------------------------------------------------------
 }
             FUNCTION  KL_LIMIT(U10,LL : EXTENDED) : EXTENDED;
-{        ‡€‚ˆ‘ˆŒŽ‘’œ  ¤¥«¥­¨ï Ž Š ‚Ž‹…ˆŸ
-          € Š“ŽŒ€‘˜’€Ž… ˆ Ÿœ Ž‚›‰ ‚€ˆ€’
+{        â€¡â‚¬â€šË†â€˜Ë†Å’Å½â€˜â€™Å“  Â¤Â¥Â«Â¥Â­Â¨Ã¯ ÂÅ½ Å  â€šÅ½â€¹Ââ€¦ÂË†Å¸
+          Ââ‚¬ Å Ââ€œÂÂÅ½Å’â‚¬â€˜Ëœâ€™â‚¬ÂÂÅ½â€¦ Ë† ÂÅ¸ÂÅ“ ÂÅ½â€šâ€ºâ€° â€šâ‚¬ÂË†â‚¬Ââ€™
 }
     VAR
          Y : EXTENDED;
@@ -256,10 +256,10 @@
  --------------------------------------------------------------------------
 }
            FUNCTION  DET(X : EXTENDED) : EXTENDED;
-{             ”“Š–ˆŸ €‚€ „…’…Œˆ€’“ ˆ
-              ……•Ž„… Ž’ —€‘’Ž’› Š ‚Ž‹Ž‚›Œ —ˆ‘‹€Œ
-              Ž Ž‹Ž‰ „ˆ‘…‘ˆŽŠ…
-              X - ‚Ž‹Ž‚Ž… —ˆ‘‹Ž
+{             â€â€œÂÅ â€“Ë†Å¸ Ââ‚¬â€šÂâ‚¬ â€žâ€¦â€™â€¦ÂÅ’Ë†Ââ‚¬Ââ€™â€œ ÂÂË†
+              Ââ€¦Ââ€¦â€¢Å½â€žâ€¦ Å½â€™ â€”â‚¬â€˜â€™Å½â€™â€º Å  â€šÅ½â€¹ÂÅ½â€šâ€ºÅ’ â€”Ë†â€˜â€¹â‚¬Å’
+              ÂÅ½ ÂÅ½â€¹ÂÅ½â€° â€žË†â€˜Ââ€¦Ââ€˜Ë†Å½ÂÅ â€¦
+              X - â€šÅ½â€¹ÂÅ½â€šÅ½â€¦ â€”Ë†â€˜â€¹Å½
 }
     VAR
         D : EXTENDED;
@@ -276,8 +276,8 @@
                   PARAMETERS FOR DEVELOPING WIND WAVE
 }
               FUNCTION OMEGA_DEV(X : EXTENDED) : EXTENDED;
-{         ‚›—ˆ‘‹Ÿ…’‘Ÿ OMEGA~  ‡€‚ˆ‘Ÿ™…… Ž’ €‡ƒŽ€ X
-          ’Ž …‡€‡Œ…›‰ €‡ƒŽ
+{         â€šâ€ºâ€”Ë†â€˜â€¹Å¸â€¦â€™â€˜Å¸ OMEGA~  â€¡â‚¬â€šË†â€˜Å¸â„¢â€¦â€¦ Å½â€™ Ââ‚¬â€¡Æ’Å½Ââ‚¬ X
+          Ââ€™Å½ Ââ€¦â€¡Ââ‚¬â€¡Å’â€¦ÂÂâ€ºâ€° Ââ‚¬â€¡Æ’Å½Â
 }
      VAR
          Y: EXTENDED;
@@ -301,8 +301,8 @@
      END;
 
               FUNCTION GAMMA_DEV(X : EXTENDED) : EXTENDED;
-{         ‚›—ˆ‘‹Ÿ…’‘Ÿ GAMMA~  ‡€‚ˆ‘Ÿ™…… Ž’ €‡ƒŽ€ X
-          ’Ž …‡€‡Œ…›‰ €‡ƒŽ
+{         â€šâ€ºâ€”Ë†â€˜â€¹Å¸â€¦â€™â€˜Å¸ GAMMA~  â€¡â‚¬â€šË†â€˜Å¸â„¢â€¦â€¦ Å½â€™ Ââ‚¬â€¡Æ’Å½Ââ‚¬ X
+          Ââ€™Å½ Ââ€¦â€¡Ââ‚¬â€¡Å’â€¦ÂÂâ€ºâ€° Ââ‚¬â€¡Æ’Å½Â
 }
      VAR
          Y: EXTENDED;
@@ -326,8 +326,8 @@
      END;
 
               FUNCTION ALPHA_DEV(X : EXTENDED) : EXTENDED;
-{         ‚›—ˆ‘‹Ÿ…’‘Ÿ  ALPHA~ ‡€‚ˆ‘Ÿ™€Ÿ Ž’ €‡ƒŽ€ X
-          ’Ž …‡€‡Œ…›‰ €‡ƒŽ
+{         â€šâ€ºâ€”Ë†â€˜â€¹Å¸â€¦â€™â€˜Å¸  ALPHA~ â€¡â‚¬â€šË†â€˜Å¸â„¢â‚¬Å¸ Å½â€™ Ââ‚¬â€¡Æ’Å½Ââ‚¬ X
+          Ââ€™Å½ Ââ€¦â€¡Ââ‚¬â€¡Å’â€¦ÂÂâ€ºâ€° Ââ‚¬â€¡Æ’Å½Â
 }
      VAR
          Y: EXTENDED;
@@ -352,22 +352,22 @@
 
 {
 ----------------------------------------------------------------------------
-				   ******* ‘…Š’ ‚Ž‹…ˆŸ ********
+				   ******* â€˜Ââ€¦Å â€™Â â€šÅ½â€¹Ââ€¦ÂË†Å¸ ********
 }
            FUNCTION  SPECTR_SWELL(X : EXTENDED) : EXTENDED;
-{                ‘…Š’  „€‚ˆ„€€, X - ‚Ž‹Ž‚Ž… —ˆ‘‹Ž
-                Ž —€‘’Ž’›‰ ‚€ˆ€’
+{                â€˜Ââ€¦Å â€™Â  â€žâ‚¬â€šË†â€žâ‚¬Ââ‚¬, X - â€šÅ½â€¹ÂÅ½â€šÅ½â€¦ â€”Ë†â€˜â€¹Å½
+                ÂÅ½ â€”â‚¬â€˜â€™Å½â€™Ââ€ºâ€° â€šâ‚¬ÂË†â‚¬Ââ€™
 }
     VAR
         W,M0,ALPHA_W : EXTENDED;
 
     BEGIN
-          W:= OMEGA_K(X);  {’…Š“™€Ÿ —€‘’Ž’€}
+          W:= OMEGA_K(X);  {â€™â€¦Å â€œâ„¢â‚¬Å¸ â€”â‚¬â€˜â€™Å½â€™â‚¬}
 
           M0:= SQR(MAX_SWH)/16.0;
           SPECTR_SWELL:= 6.0 * M0 * POWER(WM_SWELL/W,5.0) *
                           expo(-1.2*POWER(WM_SWELL/W,5.0))/ W
-                           *SQRT(9.8/X)/2.0; {ŠŽ…Š–ˆŸ }
+                           *SQRT(9.8/X)/2.0; {Å Å½ÂÂâ€¦Å â€“Ë†Å¸ }
     END;
 
 
@@ -375,10 +375,10 @@
  -------------------------------------------------------------------------
 }
 		   FUNCTION   SPECTR_WAVE(X : EXTENDED) : EXTENDED;
-{               ‘…Š’ JONSWAP
-                X - ‚Ž‹Ž‚Ž… —ˆ‘‹Ž
-                ˆ ˆ’…ƒˆŽ‚€ˆˆ … “†Ž „ŽŒŽ†€’œ € ‚Ž‹Ž‚Ž…
-                —ˆ‘‹Ž, ’.…. KdK
+{               â€˜Ââ€¦Å â€™Â JONSWAP
+                X - â€šÅ½â€¹ÂÅ½â€šÅ½â€¦ â€”Ë†â€˜â€¹Å½
+                ÂÂË† Ë†Ââ€™â€¦Æ’ÂË†ÂÅ½â€šâ‚¬ÂË†Ë† Ââ€¦ Ââ€œâ€ ÂÅ½ â€žÅ½Å’ÂÅ½â€ â‚¬â€™Å“ Ââ‚¬ â€šÅ½â€¹ÂÅ½â€šÅ½â€¦
+                â€”Ë†â€˜â€¹Å½, â€™.â€¦. KdK
 }
 	VAR
 		G,SW,SW1,ARG,B: EXTENDED;
@@ -405,11 +405,11 @@
 ----------------------------------------------------------------------------
 }
           FUNCTION   NEW_SPECTR1(KT : EXTENDED) : EXTENDED;
-{                 ‘…Š’ ‚Ž‹…ˆŸ …„‹Ž†…›‰ Šˆ’€‰ƒŽŽ„‘ŠˆŒ
-        €—ˆ€…’‘Ÿ  Ž’ 1.5 „Ž 3.5 WM
-        W - —€‘’Ž’€
-        ! …’ ŠŽ””ˆ–ˆ…’€ BETA, Ž ˆ™…’‘Ÿ ‘’›ŠŽ‚ŠŽ‰
-        ‘…Š’Ž‚ ‚ ’Ž—Š… LIMIT_1K, 1/W**4
+{                 â€˜Ââ€¦Å â€™Â â€šÅ½â€¹Ââ€¦ÂË†Å¸ ÂÂâ€¦â€žâ€¹Å½â€ â€¦ÂÂâ€ºâ€° Å Ë†â€™â‚¬â€°Æ’Å½ÂÅ½â€žâ€˜Å Ë†Å’
+        Ââ‚¬â€”Ë†Ââ‚¬â€¦â€™â€˜Å¸  Å½â€™ 1.5 â€žÅ½ 3.5 WM
+        W - â€”â‚¬â€˜â€™Å½â€™â‚¬
+        ! Ââ€¦â€™ Å Å½Ââ€â€Ë†â€“Ë†â€¦Ââ€™â‚¬ BETA, Å½Â Ë†â„¢â€¦â€™â€˜Å¸ â€˜â€™â€ºÅ Å½â€šÅ Å½â€°
+        â€˜Ââ€¦Å â€™ÂÅ½â€š â€š â€™Å½â€”Å â€¦ LIMIT_1K, 1/W**4
 }
    VAR
         Y,BETA0,W0 : EXTENDED;
@@ -429,11 +429,11 @@
 ----------------------------------------------------------------------------
 }
           FUNCTION   NEW_SPECTR2(KT : EXTENDED) : EXTENDED;
-{                 ‘…Š’ ‚Ž‹…ˆŸ €˜€ ŒŽ„…‹œ
-        €—ˆ€…’‘Ÿ  Ž’ 3.5 „Ž 10.5 WM
-        W - —€‘’Ž’€
-        ! …’ ŠŽ””ˆ–ˆ…’€ BETA, Ž ˆ™…’‘Ÿ ‘’›ŠŽ‚ŠŽ‰
-        ‘…Š’Ž‚ ‚ ’Ž—Š… LIMIT_2K         1/W**5
+{                 â€˜Ââ€¦Å â€™Â â€šÅ½â€¹Ââ€¦ÂË†Å¸ Ââ‚¬Ëœâ‚¬ Å’Å½â€žâ€¦â€¹Å“
+        Ââ‚¬â€”Ë†Ââ‚¬â€¦â€™â€˜Å¸  Å½â€™ 3.5 â€žÅ½ 10.5 WM
+        W - â€”â‚¬â€˜â€™Å½â€™â‚¬
+        ! Ââ€¦â€™ Å Å½Ââ€â€Ë†â€“Ë†â€¦Ââ€™â‚¬ BETA, Å½Â Ë†â„¢â€¦â€™â€˜Å¸ â€˜â€™â€ºÅ Å½â€šÅ Å½â€°
+        â€˜Ââ€¦Å â€™ÂÅ½â€š â€š â€™Å½â€”Å â€¦ LIMIT_2K         1/W**5
 }
    VAR
         Y,BETA0,W0 : EXTENDED;
@@ -453,11 +453,11 @@
 ----------------------------------------------------------------------------
 }
           FUNCTION   NEW_SPECTR3(KT : EXTENDED) : EXTENDED;
-{                 ‘…Š’ ‚Ž‹…ˆŸ
-        €—ˆ€…’‘Ÿ  Ž’ 30  WM  „Ž 100 €˜€ ŒŽ„…‹œ
-        W - —€‘’Ž’€
-        ! …’ ŠŽ””ˆ–ˆ…’€ BETA, Ž ˆ™…’‘Ÿ ‘’›ŠŽ‚ŠŽ‰
-        ‘…Š’Ž‚ ‚ ’Ž—Š… LIMIT_3K
+{                 â€˜Ââ€¦Å â€™Â â€šÅ½â€¹Ââ€¦ÂË†Å¸
+        Ââ‚¬â€”Ë†Ââ‚¬â€¦â€™â€˜Å¸  Å½â€™ 30  WM  â€žÅ½ 100 Ââ‚¬Ëœâ‚¬ Å’Å½â€žâ€¦â€¹Å“
+        W - â€”â‚¬â€˜â€™Å½â€™â‚¬
+        ! Ââ€¦â€™ Å Å½Ââ€â€Ë†â€“Ë†â€¦Ââ€™â‚¬ BETA, Å½Â Ë†â„¢â€¦â€™â€˜Å¸ â€˜â€™â€ºÅ Å½â€šÅ Å½â€°
+        â€˜Ââ€¦Å â€™ÂÅ½â€š â€š â€™Å½â€”Å â€¦ LIMIT_3K
         W**3
 }
    VAR
@@ -477,11 +477,11 @@
 ----------------------------------------------------------------------------
 }
           FUNCTION   NEW_SPECTR4(KT : EXTENDED) : EXTENDED;
-{                 ‘…Š’ ‚Ž‹…ˆŸ
-        €—ˆ€…’‘Ÿ  Ž’ 30  WM  „Ž 100 €˜€ ŒŽ„…‹œ
-        W - —€‘’Ž’€
-        ! …’ ŠŽ””ˆ–ˆ…’€ BETA, Ž ˆ™…’‘Ÿ ‘’›ŠŽ‚ŠŽ‰
-        ‘…Š’Ž‚ ‚ ’Ž—Š… LIMIT_3K
+{                 â€˜Ââ€¦Å â€™Â â€šÅ½â€¹Ââ€¦ÂË†Å¸
+        Ââ‚¬â€”Ë†Ââ‚¬â€¦â€™â€˜Å¸  Å½â€™ 30  WM  â€žÅ½ 100 Ââ‚¬Ëœâ‚¬ Å’Å½â€žâ€¦â€¹Å“
+        W - â€”â‚¬â€˜â€™Å½â€™â‚¬
+        ! Ââ€¦â€™ Å Å½Ââ€â€Ë†â€“Ë†â€¦Ââ€™â‚¬ BETA, Å½Â Ë†â„¢â€¦â€™â€˜Å¸ â€˜â€™â€ºÅ Å½â€šÅ Å½â€°
+        â€˜Ââ€¦Å â€™ÂÅ½â€š â€š â€™Å½â€”Å â€¦ LIMIT_3K
         W**5
 }
    VAR
@@ -502,9 +502,9 @@
 ----------------------------------------------------------------------------
 }
           FUNCTION   FULL_SPECTR2(KT : EXTENDED) : EXTENDED;
-{         Ž‹›‰ ‘…Š’ - JONSWAP + „“ƒˆ… ‘…Š’›
-        ‘’›ŠŽ‚Š€ ‘…Š’Ž‚ - W/WM
-        „Ž LIMIT_1K - 1/W**5
+{         ÂÅ½â€¹Ââ€ºâ€° â€˜Ââ€¦Å â€™Â - JONSWAP + â€žÂâ€œÆ’Ë†â€¦ â€˜Ââ€¦Å â€™Ââ€º
+        â€˜â€™â€ºÅ Å½â€šÅ â‚¬ â€˜Ââ€¦Å â€™ÂÅ½â€š - W/WM
+        â€žÅ½ LIMIT_1K - 1/W**5
      LIMIT_2K    WM - 1/(W**4)
      LIMIT_3K    1/(W**5)
      LIMIT_4K    1/(W**3.5)
@@ -526,15 +526,15 @@
 ----------------------------------------------------------------------------
 }
           FUNCTION   WAVE_SPECTRUM(M : INTEGER; K : EXTENDED) : EXTENDED;
-{             “€‚‹Ÿž™€Ÿ ”“Š–ˆŸ „‹Ÿ Ž‘’Ž…ˆŸ ‘…Š’€
-              K - ‚Ž‹Ž‚Ž… —ˆ‘‹Ž
+{             â€œÂÂâ‚¬â€šâ€¹Å¸Å¾â„¢â‚¬Å¸ â€â€œÂÅ â€“Ë†Å¸ â€žâ€¹Å¸ ÂÅ½â€˜â€™ÂÅ½â€¦ÂË†Å¸ â€˜Ââ€¦Å â€™Ââ‚¬
+              K - â€šÅ½â€¹ÂÅ½â€šÅ½â€¦ â€”Ë†â€˜â€¹Å½
 }
    BEGIN
 
          CASE  M OF
            1:   WAVE_SPECTRUM:= SPECTR_WAVE(K);
-           2:   WAVE_SPECTRUM:= FULL_SPECTR2(K); { ‘“ŒŒ€›‰ ‘…Š’ }
-                                            { Ž‚›‰ ‚€ˆ€’ 14 ˆž‹Ÿ 99}
+           2:   WAVE_SPECTRUM:= FULL_SPECTR2(K); { â€˜â€œÅ’Å’â‚¬ÂÂâ€ºâ€° â€˜Ââ€¦Å â€™Â }
+                                            { ÂÅ½â€šâ€ºâ€° â€šâ‚¬ÂË†â‚¬Ââ€™ 14 Ë†Å¾â€¹Å¸ 99}
            3:   WAVE_SPECTRUM:= SPECTR_SWELL(K); { SWELL }
          ELSE  BEGIN
                   WRITELN('     THIS NUMBER IS ABSENT ');
@@ -568,11 +568,11 @@
             OMEGA_M:= OMEGA_DEV(X_TILD);
           END;
 
-{***** ƒ€ˆ–› ‘…Š’€ *****
+{***** Æ’Ââ‚¬ÂË†â€“â€º â€˜Ââ€¦Å â€™Ââ‚¬ *****
  ***************************}
-     LIMIT_1:= 1.2;   { €—ˆ€…’‘Ÿ  - 1/(W**4) }
-     LIMIT_3:= 270.0; { €—ˆ€…’‘Ÿ 1/W**2.7 }
-     LIMIT_4:= 1020.0; { €—ˆ€…’‘Ÿ 1/W*5 }
+     LIMIT_1:= 1.2;   { Ââ‚¬â€”Ë†Ââ‚¬â€¦â€™â€˜Å¸  - 1/(W**4) }
+     LIMIT_3:= 270.0; { Ââ‚¬â€”Ë†Ââ‚¬â€¦â€™â€˜Å¸ 1/W**2.7 }
+     LIMIT_4:= 1020.0; { Ââ‚¬â€”Ë†Ââ‚¬â€¦â€™â€˜Å¸ 1/W*5 }
 
      LOG_LONG:= ANT(' LONG CALCULATIONS ? ');
      LOG_TILTS:= ANT(' SLOPES (Y) OR HEIGHT (N) ? ');
@@ -622,7 +622,7 @@
                                                            U19_SWELL:4:2);
 
                  WRITELN(' INPUT WIND WAVES PARAMETERS ');
-   		         U10:= RREAD(' Input U10,  Œ/‘  ');
+   		         U10:= RREAD(' Input U10,  Å’/â€˜  ');
                  U19:= WIND(U10*100.0,1000.0,1950.0, UFRICTION)/100.0;
                  UFRICTION:= UFRICTION / 100.0;
                  WM:= OMEGA_M*9.8/U10;
@@ -636,7 +636,7 @@
 
           IF NOT LOG_SWELL
           THEN BEGIN
-                 LIMIT_1K:= FIND_DECISION(LIMIT_1*WM);{€—ˆ€…’‘Ÿ - 1/(W**4) }
+                 LIMIT_1K:= FIND_DECISION(LIMIT_1*WM);{Ââ‚¬â€”Ë†Ââ‚¬â€¦â€™â€˜Å¸ - 1/(W**4) }
 
                  LIMIT_2:= KM_LIMIT(U10);
 
