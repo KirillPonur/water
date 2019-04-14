@@ -1,0 +1,119 @@
+%!TEX root = ../water.tex
+% Тип документа
+\documentclass[a4paper,12pt]{extarticle}
+
+% Шрифты, кодировки, символьные таблицы, переносы
+% \usepackage{cmap}
+% \usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+% Это пакет -- хитрый пакет, он нужен но не нужен
+\usepackage[mode=buildnew]{standalone}
+
+\usepackage
+	{
+		% Дополнения Американского математического общества (AMS)
+		amssymb,
+		amsfonts,
+		amsmath,
+		amsthm,
+		% Пакет для физических текстов
+		physics,
+		% misccorr,
+		% 
+		% Графики и рисунки
+		wrapfig,
+		graphicx,
+		subcaption,
+		float,
+		tikz,
+		tikz-3dplot,
+		caption,
+		csvsimple,
+		color,
+		booktabs,
+		geometry,
+		% 
+		% Таблицы, списки
+		makecell,
+		multirow,
+		indentfirst,
+		%
+		% Интегралы и прочие обозначения
+		ulem,
+		esint,
+		esdiff,
+		% 
+		% Колонтитулы
+		fancyhdr,
+	}  
+\usepackage{pgfplots,pgfplotstable,booktabs,colortbl}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+ % Цвета для гиперссылок
+\definecolor{linkcolor}{HTML}{000000} % цвет ссылок
+\definecolor{urlcolor}{HTML}{799B03} % цвет гиперссылок
+ 
+\hypersetup{pdfstartview=FitH,linkcolor=linkcolor,urlcolor=urlcolor, colorlinks=true}
+\hypersetup{pageanchor=false}
+% Увеличенный межстрочный интервал, французские пробелы
+\linespread{1.3} 
+\frenchspacing 
+
+ 
+% \usetikzlibrary
+% 	{
+% 		decorations.pathreplacing,
+% 		decorations.pathmorphing,
+% 		patterns,
+% 		calc,
+% 		scopes,
+% 		arrows,
+% 		fadings,
+% 		through,
+% 		shapes.misc,
+% 		arrows.meta,
+% 		3d,
+% 		quotes,
+% 		angles,
+% 		babel
+% 	}
+% Среднее <#1>
+\newcommand{\mean}[1]{\langle#1\rangle}
+% const прямым шрифтом
+\newcommand\ct[1]{\text{\rmfamily\upshape #1}}
+\newcommand*{\const}{\ct{const}}
+\usepackage{array}
+\usepackage{pstool}
+
+\geometry		
+	{
+		left			=	2cm,
+		right 			=	2cm,
+		top 			=	2.5cm,
+		bottom 			=	2.5cm,
+		bindingoffset	=	0cm
+	}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%применим колонтитул к стилю страницы
+\pagestyle{fancy} 
+	%очистим "шапку" страницы
+% \fancyhead{} 
+	%слева сверху на четных и справа на нечетных
+\fancyhead[R]{}%\labauthors 
+	%справа сверху на четных и слева на нечетных
+% \fancyhead[L]{Отчёт по лабораторной работе №\labnumber}
+\fancyhead[L]{\labtheme} 
+	%очистим "подвал" страницы
+% \fancyfoot{} 
+	% номер страницы в нижнем колинтуле в центре
+\fancyfoot[C]{\thepage} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\contentsname}{Оглавление}
+\usepackage{tocloft}
+\usepackage{secdot}
+\sectiondot{subsection}

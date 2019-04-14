@@ -10,8 +10,8 @@ LM=2*pi/KM,
 Kmin=KM/4, 
 Kmax= KL_LIMIT(U10,LL)/2, 
 
-Nw=2^10;
-Ntheta=2^10; 
+Nw=2^4;
+Ntheta=2^4; 
 Sd=windspec(U10,x1,k2w(Kmin),k2w(Kmax),Nw,Ntheta); % S(¦Ø,¦Õ)
     % figure,wspecplot(Sd), % plot Sd
 Nx=2^10;Ny=2^10;Nt=2^0;dt=1;
