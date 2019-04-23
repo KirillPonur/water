@@ -2,7 +2,9 @@ from pylab import *
 from numpy import random
 from scipy import interpolate
 from scipy  import integrate
+from tqdm import tqdm
 import os
+
  
 rcParams['figure.figsize'] = [7, 6]
 rcParams['axes.labelsize'] = 20
@@ -274,11 +276,13 @@ def nodes(ki,b0):
     nodes=zeros(len(ki))
     epsabs=1.49e-12
     epsrel=1.49e-12
+    pbar=tqdm(range(len(ki)))
     for i in range(1,len(ki)):
         integral,error=integrate.quad(y,ki[i-1],ki[i],
         limit=50,epsabs=epsabs, epsrel=epsrel)
         B=(sqrt(integral/b0))
         nodes[i-1]=B
+        # pbar.update(1)
 #         print(B)
     return nodes[:-1]
 
