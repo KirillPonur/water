@@ -269,17 +269,17 @@ class surface:
 #            self.k=nodes(ki,b0)
 
         if phi_optimize == 0:
-            self.M = M*np.ones(self.N, dtype='int')
-            self.phi=([np.linspace(-pi,pi,self.M[i]) for i in range(N)])
+            self.M = M
+            self.phi=np.linspace(-pi,pi,self.M)
 
         # случайные фазы
         if random_phases == 0:
             self.psi = np.array([
-                    [0 for m in range(self.M[n]) ] for n in range(N) ])
+                    [0 for m in range(self.M) ] for n in range(self.N) ])
         elif random_phases == 1:
             self.psi = np.array([
-                [ np.random.uniform(0,2*pi) for m in range(self.M[n])]
-                            for n in range(N) ])
+                [ np.random.uniform(0,2*pi) for m in range(self.M)]
+                            for n in range(self.N) ])
         # массив с амплитудами i-ой гармоники
         self.A = self.amplitude(self.k)
         # угловое распределение
@@ -304,33 +304,21 @@ class surface:
         B0 = self.B(k)
         A0 = normalization(B0)
         try:
-            Phi = ([
-                    [ A0[i]/np.cosh(2*B0[i]*phi[i][j]) for j in range(M[i]) ]
-                                                    for i in range(N)])
-            for i in range(len(Phi)):
-                for j in range(max(M)-len(Phi[i])):
-                    Phi[i].append(0)
+            Phi = [[ A0[i]/np.cosh(2*B0[i]*phi[j]) for j in range(M) ] for i in range(N)]
             Phi=np.array(Phi)
         except:
-            try:
-                Phi = [[ A0[i]/np.cosh(2*B0[i]*phi[j]) for j in range(M) ]
-                                                    for i in range(N)]
-                Phi=np.array(Phi)
-            except:
-                Phi = A0/np.cosh(2*B0*phi)
+            Phi = A0/np.cosh(2*B0*phi)
         return Phi
 
 
     def angle(self,k,phi):
         N, M = self.N, self.M
         Phi = self.Phi(k,phi)
-        dphi = np.array([[phi[i][j] - phi[i][j-1] for j in range(1,M[i])]
-                                                    for i in range(N)])
+        dphi = np.array([phi[j] - phi[j-1]  for j in range(1,M) ] ) 
         dF = np.delete(Phi,0,1)
-        F = ([ [np.sqrt(dF[n][m]*dphi[n][m]) for m in range(M[n]-1)]
+        F = ([ [np.sqrt(dF[n][m]*dphi[m]) for m in range(M-1)]
                                             for n in range(N) ])
-        for i in range(len(F)):
-            for j in range(max(M)-len(F[i])):
+        for i in range(N):
                 F[i].append(0)
         F=np.array(F)
         return F
@@ -355,10 +343,10 @@ class surface:
             progress_bar = tqdm( total = N*int(np.mean(M)),  leave = False )
 #            progress_bar.set_description("Processing %s" % t)
             for n in range(N):
-                for m in range(M[n]):
+                for m in range(M):
                   self.surface += A[n] * \
                   np.cos(
-                      +k[n]*(r[0]*np.cos(phi[n][m])+r[1]*np.sin(phi[n][m]))
+                      +k[n]*(r[0]*np.cos(phi[m])+r[1]*np.sin(phi[m]))
                       +psi[n][m]
                       +self.omega_k(k[n])*t) \
                       * F[n][m]
@@ -430,7 +418,47 @@ class correlation:
         for j in range(len(rho)):
                 f[j]=sum( A**2/2*np.cos(k*rho[j]) )
         return f
+    ################################################3
+    def sigma(self,k,phi):
+        F = self.spectrum(k) *  self.Phi(k,phi)
+        return F
+
+    def sigma_xx(self,k,phi):
+        pass
+        F = self.spectrum(k) * ( k*np.cos(phi) )**2 * self.Phi(k,phi)
+        return F
     
+    def sigma_yy(self,k,phi):
+        pass
+        F = self.spectrum(k) * ( k*np.cos(phi) )**2 * self.Phi(k,phi)
+        return F
+    
+    def sigma_ttx(self,k,phi):
+        pass
+        F = self.spectrum(k) * ( self.omega_k(k) * np.cos(phi) )**2 * self.Phi(k,phi)
+        return F
+    def sigma_tty(self,k,phi):
+        pass
+        F = self.spectrum(k) * ( self.omega_k(k) * np.sin(phi) )**2 * self.Phi(k,phi)
+        return F
+    def sigma_tt(self,k,phi):
+        pass
+        F = self.spectrum(k) * ( self.omega_k(k) )**2 * self.Phi(k,phi)
+        return F
+    def sigma_tx(self,k,phi):
+        pass
+        F = self.spectrum(k) * ( self.omega_k(k) * k* np.cos(phi) ) * self.Phi(k,phi)
+        return F
+    def sigma_ty(self,k,phi):
+        pass
+        F = self.spectrum(k) * ( self.omega_k(k) * k* np.sin(phi) ) * self.Phi(k,phi)
+        return F
+    
+    def sigma_xy(self,k,phi):
+        pass
+        F = self.spectrum(k) *  k**2 * np.sin(phi) * np.cos(phi)  * self.Phi(k,phi)
+        return F
+    ###################################################    
 class water(spectrum,correlation,surface):
     # Этот класс содержит некоторые инструменты для работы с моделью
     def __init__(self,N=256,KT=[0.05,2000]):
@@ -475,6 +503,10 @@ class water(spectrum,correlation,surface):
         plt.loglog(self.k0,self.k0**2*self.spectrum(self.k0))    
         plt.ylabel(r'$S(k)$',fontsize=16)
         plt.xlabel(r'$k$',fontsize=16)
+    
+    def plot_sigma(self):
+        phi=np.linspace(-pi,pi,10*3)
+        plt.polar(phi, self.sigma(self.k0[9000],phi))
         
     def plot_surface(self, x , y, t):
         surface = self.model(self.k, self.phi, t)
@@ -491,12 +523,12 @@ class water(spectrum,correlation,surface):
         plt.loglog(k,self.spectrum(k),label='Исходный спектр')
         plt.loglog(self.k,self.height_restore(rho,self.k,fourier),label='Восстановленный спектр')
         plt.legend()
-    def plot_restore1(self):
-        rho=self.rho0
-        k=self.k0
-        plt.plot(rho,self.height(rho,k,'real'),label='Вещественный')
-        plt.plot(rho,self.height(rho,k,'complex'),label='Комплексный')
-        plt.legend()       
+#    def plot_restore1(self):
+#        rho=self.rho0
+#        k=self.k0
+#        plt.plot(rho,self.height(rho,k,'real'),label='Вещественный')
+#        plt.plot(rho,self.height(rho,k,'complex'),label='Комплексный')
+#        plt.legend()       
         #   savefig(path.abspath('..'+'\\water\\anim\\'+'water'+str(i)+'.png'),
         #             pdi=10**6,bbox_inches='tight')
 #        show()
