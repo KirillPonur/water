@@ -188,53 +188,7 @@ class spectrum:
                                              self.full_spectrum(self.k0))
         return full_spectrum
     
-class correlation:
-    def angles(self,rho):
-        try:
-            return self.correlation_slopes(rho)
-        except:
-            progress_bar=tqdm(total = len(rho) + 1)
-            progress_bar.set_description("Вычисление функции корреляции")
-            k= np.logspace(np.log10(self.KT[0]), np.log10(self.KT[-1]), 5*10**5)
-            integral=np.zeros(len(rho))
-            y=lambda k: k**2*self.spectrum(k)
-            for i in range(len(rho)):
-                integral[i]=np.trapz(y(k)*np.cos(k*rho[i]),x=k)
-                progress_bar.update(1)
-            progress_bar.set_description("Сохранение функции корреляции")
-            self.correlation_slopes = interpolate.interp1d(rho,integral)
-            progress_bar.update(1)
-            progress_bar.close()
-            return integral
-    
-    def height_restore(self, rho,k):
-        integral=np.zeros(len(k))
-        self.K=self.height(rho)
-        for i in range(len(k)):
-            integral[i]=integrate.simps(self.K(rho)*np.cos(k[i]*rho),x=rho)
-        return integral/np.sqrt(np.pi)
-    def angles_sum(self,k,rho):
-        f=0
-        A=self.amplitude(k)
-        f=np.zeros(len(rho))
-        for j in range(len(rho)):
-                f[j]=sum( k**2*A**2/2*np.cos(k*rho[j]) )
-        return f
-    def height(self,rho):
-        k=water.k0  
-        S=self.spectrum(k)  
-        integral=np.zeros(len(rho))
-        for i in range(len(rho)):
-            integral[i]=np.trapz(S*np.cos(k*rho[i]),k)
-#        integral=interpolate.interp1d(rho,integral)
-        return integral
-    def height_sum(self,k,rho):
-        f=0
-        A=self.amplitude(k)
-        f=np.zeros(len(rho))
-        for j in range(len(rho)):
-                f[j]=sum( A**2/2*np.cos(k*rho[j]) )
-        return f
+
     
     
 class whitening():
@@ -415,17 +369,80 @@ class surface:
             return self.surface
         return water
       
+class correlation:
+    def angles(self,rho):
+        try:
+            return self.correlation_slopes(rho)
+        except:
+            progress_bar=tqdm(total = len(rho) + 1)
+            progress_bar.set_description("Вычисление функции корреляции")
+            k= np.logspace(np.log10(self.KT[0]), np.log10(self.KT[-1]), 5*10**5)
+            integral=np.zeros(len(rho))
+            y=lambda k: k**2*self.spectrum(k)
+            for i in range(len(rho)):
+                integral[i]=np.trapz(y(k)*np.cos(k*rho[i]),x=k)
+                progress_bar.update(1)
+            progress_bar.set_description("Сохранение функции корреляции")
+            self.correlation_slopes = interpolate.interp1d(rho,integral)
+            progress_bar.update(1)
+            progress_bar.close()
+            return integral
+    
 
+    def angles_sum(self,k,rho):
+        f=0
+        A=self.amplitude(k)
+        f=np.zeros(len(rho))
+        for j in range(len(rho)):
+                f[j]=sum( k**2*A**2/2*np.cos(k*rho[j]) )
+        return f
+    
+    def height_restore(self, rho, k, fourier = 'real'):
+        if fourier == 'real':
+            self.K=self.height(rho,k)
+            integral=np.zeros(len(k))
+            for i in range(len(k)):
+                integral[i]=integrate.simps(self.K*np.cos(k[i]*rho),x=rho)
+            return integral/np.sqrt(np.pi)
+        
+        elif fourier == 'complex':
+            self.K=self.height(rho,k,'complex')
+            integral=np.fft.ifft(self.K,n=k.size)
+            return integral.real
+            
+    def height(self,rho,k, fourier = 'real'):
+        if fourier == 'real':
+            S=self.spectrum(k)
+            integral=np.zeros(len(rho))
+            for i in range(len(rho)):
+                integral[i]=np.trapz(S*np.cos(k*rho[i]),x=k)
+            self.correlation_height = interpolate.interp1d(rho,integral)
+            return integral/max(integral)
+        
+        if fourier == 'complex':
+            S=self.spectrum(k)
+            integral=np.fft.fft(S,n=k.size)
+            return integral
+    def height_sum(self,k,rho):
+        f=0
+        A=self.amplitude(k)
+        f=np.zeros(len(rho))
+        for j in range(len(rho)):
+                f[j]=sum( A**2/2*np.cos(k*rho[j]) )
+        return f
+    
 class water(spectrum,correlation,surface):
     # Этот класс содержит некоторые инструменты для работы с моделью
-    def __init__(self):
-        self.rho=np.linspace(0,100,1000)
+    def __init__(self,N=256,KT=[0.05,2000]):
         self.x=np.linspace(0,200,200)
         self.y=np.linspace(0,200,200)
         self.t=np.array([0])
-        spectrum.__init__(self)
-        surface.__init__(self)
-            
+        self.N=N
+        self.KT=np.array(KT)
+        spectrum.__init__(self,KT=self.KT)
+        surface.__init__(self,N=self.N)
+        self.rho=np.linspace(0,100,1000)
+        self.rho0=np.linspace(0,100,self.k0.size)
     def plot(self,fig):
         plt.figure()
         if fig=='slopes' or fig=='s':
@@ -445,16 +462,16 @@ class water(spectrum,correlation,surface):
         plt.xlabel(r'$\rho$',fontsize=16)
         
     def plot_correlation_heights(self,rho):
-        plt.plot(self.rho,self.height(self.rho))
+        plt.plot(self.rho,self.height(self.rho,self.k0))
         plt.ylabel(r'$K(\rho)$',fontsize=16)
         plt.xlabel(r'$\rho$',fontsize=16)
         
-    def plot_slopes(self,k):
+    def plot_heights(self,k):
         plt.loglog(self.k0,self.spectrum(self.k0))
         plt.ylabel(r'$S_q(k)=S(k)k^2$',fontsize=16)
         plt.xlabel(r'$k$',fontsize=16)
         
-    def plot_heights(self,k):
+    def plot_slopes(self,k):
         plt.loglog(self.k0,self.k0**2*self.spectrum(self.k0))    
         plt.ylabel(r'$S(k)$',fontsize=16)
         plt.xlabel(r'$k$',fontsize=16)
@@ -468,6 +485,19 @@ class water(spectrum,correlation,surface):
         plt.colorbar()
         plt.ylabel(r'Y, \text{м}',fontsize=16)
         plt.xlabel(r'X, \text{м}',fontsize=16)
+    def plot_restore(self,fourier='real'):
+        rho=self.rho
+        k=self.k0
+        plt.loglog(k,self.spectrum(k),label='Исходный спектр')
+        plt.loglog(self.k,self.height_restore(rho,self.k,fourier),label='Восстановленный спектр')
+        plt.legend()
+    def plot_restore1(self):
+        rho=self.rho0
+        k=self.k0
+        plt.plot(rho,self.height(rho,k,'real'),label='Вещественный')
+        plt.plot(rho,self.height(rho,k,'complex'),label='Комплексный')
+        plt.legend()       
         #   savefig(path.abspath('..'+'\\water\\anim\\'+'water'+str(i)+'.png'),
         #             pdi=10**6,bbox_inches='tight')
 #        show()
+water=water()
