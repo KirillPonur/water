@@ -8,15 +8,11 @@ from tqdm import tqdm
 
 class spectrum:
     def __init__(self, KT = [0.05, 2000], \
-                 U10 = 5, x = 20170):
+                 U10 = 5, x = 20170, spectrum_type = 'Karaev'):
         # ускорение свободного падения.
         self.g = 9.81
         # скорость ветра на высоте 10 м над уровнем моря.
         self.U10 = U10
-        # массив с границами моделируемого спектра.
-        self.KT = np.array(KT)
-        # k0 -- густая сетка, нужна для интегрирования и интерполирования
-        self.k0= np.logspace(np.log10(KT[0]), np.log10(KT[-1]), 10**4)
         # коэффициент gamma (см. спектр JONSWAP)
         self.gamma = self.Gamma(x)
         # коэффициент alpha (см. спектр JONSWAP)
@@ -25,15 +21,19 @@ class spectrum:
         self.omega_m = self.Omega(x) * self.g/self.U10
         # координата пика спектра по волновому числу
         self.k_m = self.k_max( self.omega_m )
+        # массив с границами моделируемого спектра.
+        self.KT = np.array([self.k_m/4,self.k_m*500])
+        KT = self.KT
+        # k0 -- густая сетка, нужна для интегрирования и интерполирования
+        self.k0= np.logspace(np.log10(self.KT[0]), np.log10(self.KT[-1]), 10**4)
         
         # интерполируем смоделированный спектр
         self.spectrum = self.interpolate()
         self.sigma_sqr = integrate.quad(self.spectrum, KT[0],KT[-1])[0]
-
         
     def find_decision(self,omega):
-        P = 9.8 * 1000.0/0.074;
-        Q = -1000.0*omega**2/0.074;
+        P = 9.8 * 1000.0/0.074
+        Q = -1000.0*omega**2/0.074
         x1= -Q/2.0 + np.sqrt( (Q/2)**2 + (P/3)**3)
         x2= -Q/2.0 - np.sqrt( (Q/2)**2 + (P/3)**3)
         k=x1**(1/3)-(-x2)**(1/3)
@@ -58,7 +58,7 @@ class spectrum:
 
     def JONSWAP(self,k):
         if k<=self.k_m:
-            sigma=0.07
+            sigma=0.074
         else:
             sigma=0.09
         Sw=(
@@ -106,41 +106,18 @@ class spectrum:
         )
         return omega_tilde
 
-    def spectrum1(self,k):
-        # Граница моделируюмого спектра #1
-        # 1.2*omega_max < omega < a_m omega_m
-        omega0 = self.omega_k(self.limit_k[0])
-        beta0  = self.JONSWAP(self.limit_k[0]) * \
-                    omega0**4/self.det(self.limit_k[0])
-        omega0 = self.omega_k(k)
-        return beta0/omega0**4*self.det(k)
+    def spectrum0(self,n,k,spectrum_type = 'Karaev'):
+        if spectrum_type == 'Karaev':
+            power = [0,4,5,2.7,5]
+        if n==0:
+            return self.JONSWAP(k)
+        else:
+            omega0 = self.omega_k(self.limit_k[n-1])
+            beta0  = self.spectrum0(n-1,self.limit_k[n-1]) * \
+                        omega0**power[n]/self.det(self.limit_k[n-1])
+            omega0 = self.omega_k(k)
+            return beta0/omega0**power[n]*self.det(k)
 
-    def spectrum2(self,k):
-        # Граница моделируюмого спектра #2
-        # a_m(U_10) omega_m < omega < omega_gk simeq 60  рад/с
-        omega0 = self.omega_k(self.limit_k[1])
-        beta0  = self.spectrum1(self.limit_k[1]) * \
-                    omega0**5/self.det(self.limit_k[1])
-        omega0 = self.omega_k(k)
-        return beta0/omega0**5*self.det(k)
-
-    def spectrum3(self,k):
-        # Граница моделируюмого спектра #3
-        #  omega_gk < omega < omega_h simeq 290 рад/с
-        omega0 = self.omega_k(self.limit_k[2])
-        beta0  = self.spectrum2(self.limit_k[2]) * \
-                    omega0**2.7/self.det(self.limit_k[2])
-        omega0 = self.omega_k(k)
-        return beta0/omega0**2.7*self.det(k)
-
-    def spectrum4(self,k):
-        # Граница моделируюмого спектра #4
-        #  omega_h < omega
-        omega0 = self.omega_k(self.limit_k[3])
-        beta0  = self.spectrum3(self.limit_k[3]) * \
-                    omega0**5/self.det(self.limit_k[3])
-        omega0 = self.omega_k(k)
-        return beta0*self.det(k)/omega0**5
 
     def full_spectrum(self,k,x=20170):
         #    Спектр JONSWAP.
@@ -154,32 +131,32 @@ class spectrum:
                  + 0.290241610467870486 * self.U10
                  + 0.290178032985796564 / self.U10
                      )
-        self.limit_3 = 270.0
-        self.limit_4 = 1020.0
+        self.limit_3 = self.omega_k(270.0)
+        self.limit_4 = self.omega_k(1020.0)
         self.limit_k = np.zeros(4)
         self.limit_k[0] = self.find_decision(self.limit_1 * self.omega_m)
         self.limit_k[1] = self.find_decision(self.limit_2 * self.omega_m)
-        self.limit_k[2] = self.limit_3
-        self.limit_k[3] = self.limit_4
+        self.limit_k[2] = 270.0
+        self.limit_k[3] = 1020.0
         try:
             full_spectrum = np.zeros(len(k))
         except:
             full_spectrum = [0]
             k = [k]
 
-        # Цикл ниже сшивает спектр на границах.
         for i in range(len(k)):
             if k[i] <= self.limit_k[0]:
-                full_spectrum[i] =  self.JONSWAP(k[i])
+                full_spectrum[i] =  self.spectrum0(0,k[i])
             elif k[i] <= self.limit_k[1]:
-                full_spectrum[i] = self.spectrum1(k[i])
+                full_spectrum[i] = self.spectrum0(1,k[i])
             elif k[i] <= self.limit_k[2]:
-                full_spectrum[i] = self.spectrum2(k[i])
+                full_spectrum[i] = self.spectrum0(2,k[i])
             elif k[i] <= self.limit_k[3]:
-                full_spectrum[i] = self.spectrum3(k[i])
+                full_spectrum[i] = self.spectrum0(3,k[i])
             else:
-                full_spectrum[i] = self.spectrum4(k[i])
+                full_spectrum[i] = self.spectrum0(4,k[i])
         return full_spectrum
+
 
     def interpolate(self):
         # Интерполируем наш спектр.
@@ -327,6 +304,7 @@ class surface:
         N = len(k)
         S = self.spectrum
         integral = np.array([ integrate.quad(S,k[i-1],k[i])[0] for i in range(1,N) ])
+        print(integral)
         amplitude = np.sqrt(2 *integral )
         amplitude = np.concatenate((amplitude,[0]))
         return amplitude
@@ -418,6 +396,14 @@ class correlation:
         for j in range(len(rho)):
                 f[j]=sum( A**2/2*np.cos(k*rho[j]) )
         return f
+
+    def height_sum1(self,k,rho):
+        f=0
+        A=self.amplitude(k)
+        f=np.zeros(len(rho))
+        for j in range(len(rho)):
+                f[j]=sum(A)/2*sum( A*np.cos(k*rho[j]) )
+        return f
     ################################################3
     def sigma(self,k,phi):
         F = self.spectrum(k) *  self.Phi(k,phi)
@@ -458,19 +444,24 @@ class correlation:
         pass
         F = self.spectrum(k) *  k**2 * np.sin(phi) * np.cos(phi)  * self.Phi(k,phi)
         return F
-    ###################################################    
+    ################################################### 
+    #    
 class water(spectrum,correlation,surface):
     # Этот класс содержит некоторые инструменты для работы с моделью
-    def __init__(self,N=256,KT=[0.05,2000]):
+    def __init__(self,N=256, M = 256, KT=[0.05,2000]):
         self.x=np.linspace(0,200,200)
+        self.x0 = np.linspace(0,2000,10**5)
         self.y=np.linspace(0,200,200)
+        self.y0 = [0]
         self.t=np.array([0])
         self.N=N
+        self.M=M
         self.KT=np.array(KT)
         spectrum.__init__(self,KT=self.KT)
-        surface.__init__(self,N=self.N)
+        surface.__init__(self,N=self.N,M=self.M)
         self.rho=np.linspace(0,100,1000)
         self.rho0=np.linspace(0,100,self.k0.size)
+
     def plot(self,fig):
         plt.figure()
         if fig=='slopes' or fig=='s':
@@ -517,6 +508,7 @@ class water(spectrum,correlation,surface):
         plt.colorbar()
         plt.ylabel(r'Y, \text{м}',fontsize=16)
         plt.xlabel(r'X, \text{м}',fontsize=16)
+
     def plot_restore(self,fourier='real'):
         rho=self.rho
         k=self.k0
@@ -532,4 +524,7 @@ class water(spectrum,correlation,surface):
         #   savefig(path.abspath('..'+'\\water\\anim\\'+'water'+str(i)+'.png'),
         #             pdi=10**6,bbox_inches='tight')
 #        show()
-water=water()
+# plt.loglog(water.k0,water.full_spectrum(water.k0))
+water = water()
+water.plot('surface')
+plt.show()
